@@ -2,6 +2,7 @@ require 'delayed_paperclip/jobs'
 require 'delayed_paperclip/attachment'
 require 'delayed_paperclip/url_generator'
 require 'delayed_paperclip/railtie'
+require 'delayed_paperclip/crop_model_extension'
 
 module DelayedPaperclip
 
@@ -26,12 +27,12 @@ module DelayedPaperclip
       options[:background_job_class]
     end
 
-    def enqueue(instance_klass, instance_id, attachment_name)
-      processor.enqueue_delayed_paperclip(instance_klass, instance_id, attachment_name)
+    def enqueue(object, crop_attributes, attachment_name)
+      processor.enqueue_delayed_paperclip(object, crop_attributes, attachment_name)
     end
 
-    def process_job(instance_klass, instance_id, attachment_name)
-      instance_klass.constantize.unscoped.find(instance_id).
+    def process_job(object, crop_attributes, attachment_name)
+      object.retreive_crop_attributes(crop_attributes).
         send(attachment_name).
         process_delayed!
     end
@@ -108,7 +109,7 @@ module DelayedPaperclip
     end
 
     def enqueue_post_processing_for name
-      DelayedPaperclip.enqueue(self.class.name, read_attribute(:id), name.to_sym)
+      DelayedPaperclip.enqueue(self, self.crop_attributes, name.to_sym)
     end
 
     def prepare_enqueueing_for name
