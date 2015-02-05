@@ -4,9 +4,6 @@ This is a fork from [Delayed::Paperclip](https://github.com/jstorimer/delayed_pa
 
 It's important to note that even though the original Delayed::Paperclip works with Resque, ActiveJob and Sidekiq, this fork only supports Delayed::Job as the background queue.
 
-DelayedPaperclip lets you process your [Paperclip](http://github.com/thoughtbot/paperclip) attachments in a
-background task with [DelayedJob](https://github.com/collectiveidea/delayed_job), [Resque](https://github.com/resque/resque) or [Sidekiq](https://github.com/mperham/sidekiq).
-
 Installation
 ------------
 
