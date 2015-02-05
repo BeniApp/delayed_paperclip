@@ -57,7 +57,6 @@ module DelayedPaperclip
     end
 
     def crop_attributes
-      debugger
       attrs = []
       self.class.attachment_names.each do |attachment_name|
         attachment_attributes = []
